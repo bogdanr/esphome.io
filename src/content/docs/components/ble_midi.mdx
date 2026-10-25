@@ -309,7 +309,9 @@ Sends a pitch bend message.
 ## `ble_midi.send_sysex` Action
 
 Sends a System Exclusive message. The `0xF0` and `0xF7` bytes are added for you if the payload does not
-already carry them.
+already carry them. The message is sent in a single BLE packet and is not split, so the payload can be at
+most 125 bytes, and less if the connection negotiated a small packet size; a longer payload is refused with
+a warning.
 
 ```yaml
 - ble_midi.send_sysex:
@@ -368,8 +370,8 @@ ble_midi:
   ble_client_id: midi_keyboard
   on_message:
     - logger.log:
-        format: "MIDI %u bytes, status 0x%02X"
-        args: ["data.size()", "data[0]"]
+        format: "MIDI status 0x%02X, data 0x%02X 0x%02X"
+        args: ["data[0]", "data.size() > 1 ? data[1] : 0", "data.size() > 2 ? data[2] : 0"]
 ```
 
 The note and controller numbers you see in the log are the ones to use in your automations.
