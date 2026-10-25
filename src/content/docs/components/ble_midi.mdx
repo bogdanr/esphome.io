@@ -37,7 +37,7 @@ ble_midi:
         args: [note, velocity]
 ```
 
-## Configuration variables
+## Configuration Variables
 
 - **ble_client_id** (**Required**, [ID](/guides/configuration-types#id)): ID of the associated BLE client.
 - **id** (*Optional*, [ID](/guides/configuration-types#id)): The ID to use for code generation, and for
@@ -232,7 +232,7 @@ Sends a note on message.
     note: 60
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **note** (**Required**, int, [templatable](/automations/templates)): The note, `0` to `127`.
@@ -263,7 +263,7 @@ Sends a control change message. This is what most devices use to set an LED, a m
     value: 100
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **control_number** (**Required**, int, [templatable](/automations/templates)): The controller number,
@@ -282,7 +282,7 @@ Sends a program change message.
     program: 3
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **program** (**Required**, int, [templatable](/automations/templates)): The program, `0` to `127`.
@@ -299,7 +299,7 @@ Sends a pitch bend message.
     value: 2048
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **value** (**Required**, int, [templatable](/automations/templates)): The amount of bend, `-8192` to
@@ -320,7 +320,7 @@ a warning.
     payload: [0x7E, 0x7F, 0x06, 0x01]
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **payload** (**Required**, list of bytes, [templatable](/automations/templates)): The message body.
@@ -338,7 +338,7 @@ message, or a System Exclusive message, is refused with a warning; use
     data: [0xFA]
 ```
 
-### Configuration variables
+### Configuration Variables
 
 - **id** (**Required**, [ID](/guides/configuration-types#id)): ID of the `ble_midi` component.
 - **data** (**Required**, list of bytes, [templatable](/automations/templates)): The bytes to send.
