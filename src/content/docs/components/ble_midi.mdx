@@ -189,8 +189,8 @@ ble_midi:
 
 ### `on_sysex`
 
-Triggered when a System Exclusive message arrives. The variable `data` is available, an
-`std::vector<uint8_t>` holding the payload without the surrounding `0xF0` and `0xF7` bytes.
+Triggered when a System Exclusive message arrives. The variable `data` is available, a view of the
+payload without the surrounding `0xF0` and `0xF7` bytes (`data.size()`, `data[i]`).
 
 ```yaml
 ble_midi:
@@ -204,8 +204,8 @@ ble_midi:
 ### `on_message`
 
 Triggered for every message the device sends, including the ones the triggers above already cover and the
-ones they do not, such as aftertouch and clock. The variable `data` is available, an `std::vector<uint8_t>`
-holding the status byte followed by its data bytes.
+ones they do not, such as aftertouch and clock. The variable `data` is available, a view of the status
+byte followed by its data bytes (`data.size()`, `data[i]`).
 
 ```yaml
 ble_midi:
@@ -215,6 +215,11 @@ ble_midi:
         format: "MIDI status 0x%02X"
         args: ["data[0]"]
 ```
+
+> [!NOTE]
+> In `on_sysex` and `on_message`, `data` is only valid while the automation runs, so these two triggers
+> do not accept actions that wait, such as `delay`, `wait_until` or `script.wait`. Copy what you need
+> into a [global variable](/components/globals/) first, then wait in a separate script.
 
 ## `ble_midi.send_note_on` Action
 
@@ -319,8 +324,10 @@ already carry them.
 
 ## `ble_midi.send_raw` Action
 
-Sends MIDI bytes as they are: a status byte followed by its data bytes. Use this for messages the other
-actions do not cover.
+Sends MIDI bytes as they are: one complete message, a status byte followed by exactly the data bytes it
+needs. Use this for messages the other actions do not cover. A payload that is not a single complete
+message, or a System Exclusive message, is refused with a warning; use
+[`ble_midi.send_sysex`](#ble_midi-send_sysex-action) for those.
 
 ```yaml
 - ble_midi.send_raw:
